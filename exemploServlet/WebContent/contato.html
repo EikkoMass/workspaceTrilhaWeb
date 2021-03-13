@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Servlet Test</title>
+		<link rel="stylesheet" href="./stylesheet.css"></link>
+		<script type="text/javascript">
+		
+			function validaCampos() {
+				var nome = document.getElementById("nome");
+				var endereco = document.getElementById("endereco");
+				var telefone = document.getElementById("telefone");
+				var expRegNome = new RegExp("^[\\w\\DÀ-ü]{3,}([ ][\\w\\DÀ-ü]{2,})+$");
+				
+				if(!expRegNome.test(nome.value)){
+					
+					alert("Preencha o campo 'Nome'.");
+					nome.focus();
+					return false;
+					
+				}
+				
+				if(endereco.value == null || endereco.value == "" || endereco == undefined){
+					
+					alert("Preencha o campo 'Endereço'.");
+					endereco.focus();
+					return false;
+					
+				}
+				
+				var expRegTelefone = new RegExp("^[\(]([1-9]{2})[\)][\\d]{4,5}\-[\\d]{4}$");
+				
+				if(!expRegTelefone.test(telefone.value)){
+					
+					alert("Preencha o campo 'Telefone'.");
+					telefone.focus();
+					return false;
+					
+				}
+				
+				return true;
+			}
+		
+		</script>
+	</head>
+	<body>
+		<form onsubmit="return validaCampos()" action="insereContato">
+			<fieldset>
+				<legend>Contato</legend>
+				<label>Nome: </label>
+				<input type="text" name="nome" id="nome" class="inputText">
+				<br>
+				<label>Endereço: </label>
+				<input type="text" name="endereco" id="endereco" class="inputText">
+				<br>
+				<label>Telefone: </label>
+				<input type="text" name="telefone" id="telefone" class="inputText">
+				<br>
+				<button type="submit" name="enviar" id="enviar" class="button submit">Enviar</button>
+				<button type="reset" name="limpar" id="limpar" class="button reset">Limpar</button>
+				
+			</fieldset>
+		</form>
+	</body>
+</html>

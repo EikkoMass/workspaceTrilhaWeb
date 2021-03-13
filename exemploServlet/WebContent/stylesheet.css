@@ -1,0 +1,106 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', "Arial", 'Sans-serif';
+	box-sizing: border-box;
+	
+}
+
+html, body{
+	height: 100%;
+	width: 100%;
+}
+
+form{
+	margin: 0 auto;
+	height: 80%;
+	width: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+fieldset{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	height: 80%;
+	width: 80%;
+	flex-direction: column;
+	border-radius: 10px;
+}
+
+legend{
+	font-weight: bold;
+	text-align: center;
+}
+
+.button{
+	transition: 0.5s;
+	box-sizing: content-box;
+	width: 50%;
+	height: 10%;
+	padding: 2px;
+	margin: 2px;
+	text-align: center;
+	font-size: 16px;
+	color: #444;
+	border-radius: 5px;
+}
+
+.inputText{
+	padding: 10px;
+	width: 25%;
+	height: 30px;
+}
+
+.submit{
+	background: #c0ffb0;
+	border: 2px solid #73d216;
+}
+
+button:hover{
+	background: white;
+}
+
+.reset{
+	background: #ffc0b0;
+	border: 2px solid #c11616;
+}
+
+.classe{
+	width: 80%;
+	height: 10%;
+	display: flex;
+	background-color: #75507b;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	border-radius: 0 0 15px 15px;
+	font-size: 22px;
+	color: white;
+	margin: 0 auto;
+}
+
+.dados{
+	width: 80%;
+	height: 50%;
+	border: 2px solid #5c3566;
+	margin: 0 auto;
+	padding: 20px;
+	box-sizing: content-box;
+	border-radius: 5px;
+	font-size: 18px;
+	background: white;
+}
+
+b{
+	color: #cc8fed;
+	margin: 0 5px;
+}
+
+.internalBody{
+	background: #dea6f3;
+}
+

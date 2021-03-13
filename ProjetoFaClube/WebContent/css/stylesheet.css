@@ -1,0 +1,320 @@
+@charset "UTF-8";
+
+
+/*		Geral		*/
+
+
+*{
+	font-family: 'Poppins', sans-serif;
+	margin: 0;
+	padding: 0;
+	
+}
+
+
+html, body{
+	height: 100%;
+	width: 100%;
+}
+
+header {
+	
+	height: 96px;
+	border-bottom: 3px solid #522c13;
+	width: 100%;
+	background-color: #9c653e;
+	
+}
+
+header .logoContainer{
+	
+	display: inline-block;
+	height: 80px;
+	width: 280px;
+	margin-top: 10px;
+	margin-left: 1%;
+}
+
+.logoContainer h4{
+	
+	color: #522c13;
+	font-size: 28px;
+	margin-left: 32%;
+	
+}
+
+.logoContainer h2{
+	
+	color: white;
+	font-size: 23px;
+	margin-left: 32%;
+	
+}
+
+header .imgLogoContainer{
+	width: 30%;
+	height:100%;
+	float: left;
+
+}
+
+header .imgLogo{	
+	width: 100%;
+	height: 100%;	
+}
+
+
+
+nav {
+	width: 70%;
+	height: 100%;
+	float: right;
+	list-style: none;
+}
+
+nav a{
+	text-decoration: none;
+	display: inline-block;
+	margin: 0% 1%;
+	width: 31%;
+	height:100%;
+	transition: 0.5s;
+}
+
+
+nav a:hover{
+	
+	background-color: #b97c51;
+}
+
+ .option {
+	
+	margin-top: 10%;
+	text-align: center;
+	font-size: 30px;
+	color: white;
+}
+
+article{
+	width: 100%;
+	min-height: 80%;
+	background-color: #fff;
+}
+
+footer{
+	height: 5%;
+	width: 100%;
+	text-align: center;
+	background-color: #7f4c28;
+}
+
+footer p{
+	display: inline-block;
+	color: white;
+	margin-top: 0.5%;
+}
+
+/*		Principal		*/
+
+.indexArticle{
+	
+	background-image: url("../img/wallpaper.jpg");
+	background-repeat: no-repeat;
+	background-position: center; 
+	background-size: cover;
+	position: relative;
+}
+
+
+.titleIndexArticle{
+	position: absolute;
+	margin-left: 18%;
+	margin-top: 11%;
+	width: 40%;
+	
+}
+
+.titleIndexArticle h2{
+	color: #c6804e;
+	font-size: 3.9em;
+		
+}
+
+.titleIndexArticle h3{
+	color: #e6a548;
+	font-size: 3.5em;
+		
+}
+
+.buttonIndex{
+	transition: 0.5s;
+	position: absolute;
+	text-decoration: none;
+	color: white;
+	width: 70%;
+	height: 18%;
+	padding: 30px;
+	background-color: #7f4c28;
+	border-radius: 12px;
+	margin-top: 5%;
+	margin-left: 8%;
+	text-align: center;
+	font-size: 1.5em;
+	border: 2px solid transparent;
+}
+
+.buttonIndex:hover{
+	border: 2px solid #7f4c28;
+	color: #7f4c28;
+	background-color: transparent;
+	
+}
+
+.imgGolemIndexContainer{
+	width: 40%;
+	height: 40%;
+	position: absolute;
+	right: 10%;
+	top: 18%;
+	
+}
+.imgGolemIndex{
+	
+width: 80%;
+height: 180%;
+	
+}
+
+
+/*		Conteúdo		*/
+
+.articleContentContainer h3{
+	font-size: 25px;
+	color: #7f4c28;
+	text-align: center;
+	padding-top: 5%;
+}
+
+.tabelContent{
+	
+	margin: 0 auto;
+	margin-top: 4%;
+	
+}
+
+tr,td,th{
+	padding: 8px 20px;
+	
+}
+
+.theadTabelContent tr{ 
+	background-color: #7f4c28;
+	font-size: 22px;
+	color: white;
+}
+
+.tbodyTabelContent tr:nth-child(even){ 
+	background-color: #ffffff;
+}
+
+.tbodyTabelContent tr:nth-child(odd){
+	background-color: #dfdfdf;
+}
+.tbodyTabelContent tr{
+	transition: 0.5s;
+	color: #7f4c28;
+	font-size: 18px;
+}
+
+.tbodyTabelContent tr:hover{
+	background-color: #f7d5b5;
+}
+
+
+/*		Seja Membro		*/
+
+
+.formBecomeMember{
+	display: block;
+	height: 100%;
+	width: 40%;
+	margin: 0 auto;
+	padding: 10px 30px;
+	border-left: 6px solid #7f4c28;
+	border-right: 6px solid #7f4c28;
+}
+
+.formBecomeMember h3{
+	
+	font-size: 25px;
+	color: #7f4c28;
+	text-align: center;
+	padding-top: 1%;
+	
+}
+
+.formBecomeMember label{
+	display: inline-block;
+	font-size: 16px;
+	margin-top: 2px;
+}
+
+.formBecomeMember input{
+	margin-top: 4px;
+
+	
+}
+
+.inputGeneral{
+	padding: 7px;
+	width: 40%;
+	border-radius: 5px;
+	margin-bottom: 1%;
+	border: 1px solid #aaaaaa;
+	font-family: "Arial", "sans serif";
+}
+
+.formBecomeMember button{
+	padding: 8px 25px;
+	border-radius: 5px;
+	transition: 0.5s;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border: 2px solid transparent;
+	margin: 0 8%;
+	margin-top: 15px;
+
+}
+.radioContainer{
+	width: 20%;
+	height: 3%;
+	margin: 0  2%;
+	float: left;
+}
+
+.submitForm{
+	background-color: #67ad3e;
+}
+
+.submitForm:hover{
+	background-color: transparent;
+	border: 2px solid #67ad3e;
+	color: #67ad3e;
+	
+}
+
+.resetForm{
+	background-color: #9c1625;
+}
+
+.resetForm:hover{
+	background-color: transparent;
+	border: 2px solid #9c1625;
+	color: #9c1625;
+}
+
+
+
+
+
