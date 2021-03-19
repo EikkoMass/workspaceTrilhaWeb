@@ -60,8 +60,7 @@ public class JDBCProdutoDAO implements ProdutoDAO {
 			// concatena no comando o WHERE buscando no nome do produto
 			// o texto da variável nome
 
-			comando += "WHERE modelo LIKE '%:1%' ";
-			comando.replace(":1", nome);
+			comando += "WHERE modelo LIKE '%"+nome+"%' ";
 		}
 
 		// Finaliza o comando ordenando alfabeticamente por categoria,
