@@ -1,7 +1,6 @@
 COLDIGO.produto = new Object();
 
 $(document).ready(() => {
-	alert('tentando buscar marcas');
 	COLDIGO.produto.carregarMarcas = () => {
 		$.ajax({
 			type: 'GET',
@@ -26,7 +25,6 @@ $(document).ready(() => {
 
 				} else {
 
-
 					$('#selMarca').html("");
 
 					var option = document.createElement('option');
@@ -35,8 +33,6 @@ $(document).ready(() => {
 					$('#selMarca').append(option);
 					$('#selMarca').addClass('aviso');
 				}
-
-				COLDIGO.exibirAviso('success');
 
 			},
 			error: info => {
@@ -67,7 +63,6 @@ $(document).ready(() => {
 			valor: form.valor.value
 
 		};
-		debugger;
 
 		if (produto.categoria == "" || produto.marcaId == "" || produto.modelo == ""
 			|| produto.capacidade == "" || produto.valor == "") {
@@ -84,6 +79,7 @@ $(document).ready(() => {
 				success: msg => {
 					COLDIGO.exibirAviso(msg);
 					$('#addProduto').trigger('reset');
+					COLDIGO.produto.buscar()
 				},
 				error: info => {
 					COLDIGO.exibirAviso(`Erro ao cadastrar um novo produto: ${info.status} - ${info.statusText}`);
@@ -91,7 +87,73 @@ $(document).ready(() => {
 			});
 
 		}
-
+		
 	}
 
+
+	/* Busca no BD e exibe na página os produtos que atendam a solicitação de usuário */
+	COLDIGO.produto.buscar = () => {
+	
+	let valorBusca = $("#campoBuscaProduto").val();
+	
+	$.ajax({
+		type: 'GET',
+		url: `${COLDIGO.PATH}produto/buscar`,
+		data: `valorBusca=${valorBusca}`,
+		success: dados => {
+		
+		dados = JSON.parse(dados);
+		
+
+		$('#listaProdutos').html(COLDIGO.produto.exibir(dados));
+		
+		},
+		error: info => {
+			COLDIGO.exibirAviso(
+			`Erro ao consultar os contatos: ${info.status} - ${info.statusText}`);
+		}
+	});
+ };
+ 
+ //Transforma os dados dos produtos recebidos do servidor em uma tabela HTML
+ COLDIGO.produto.exibir = listaDeProdutos => {
+ 
+ let tabela = '<table><tr>'+
+ 				'<th>Categoria</th>'+
+ 				'<th>Marca</th>'+
+ 				'<th>Modelo</th>'+
+ 				'<th>Cap.(1)</th>'+
+ 				'<th>Valor</th>'+
+ 				'<th class="acoes">Ações</th>'+
+ 			'</tr>';
+ 
+ if(listaDeProdutos != undefined && listaDeProdutos.length > 0){
+	listaDeProdutos.forEach( produto => {
+	 
+	 	tabela += `	<tr>
+	 					<td>${produto.categoria}</td>
+	 					<td>${produto.marcaNome}</td>
+	 					<td>${produto.modelo}</td>
+	 					<td>${produto.capacidade}</td>
+	 					<td>R$ ${COLDIGO.formatarDinheiro(produto.valor)}</td>
+	 					<td>
+	 						<a><img src='../../imgs/edit.png' alt="Editar registro"></a>
+	 						<a><img src='../../imgs/delete.png' alt="Excluir registro"></a>
+	 					</td>
+	 				</tr>`;
+	 })
+   }else if(listaDeProdutos == ""){
+   
+   tabela += '<tr><td colspan="6">Nenhum Registro Encontrado</td></tr>';
+   
+   }
+   
+ 	tabela += '</table>';
+ 	
+ 	return tabela;
+ };
+ 
+ //Executa a função de busca ao carregar a página
+ COLDIGO.produto.buscar();
+ 
 });
