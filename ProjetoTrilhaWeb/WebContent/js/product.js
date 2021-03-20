@@ -87,50 +87,50 @@ $(document).ready(() => {
 			});
 
 		}
-		
+
 	}
 
 
 	/* Busca no BD e exibe na página os produtos que atendam a solicitação de usuário */
 	COLDIGO.produto.buscar = () => {
-	
-	let valorBusca = $("#campoBuscaProduto").val();
-	
-	$.ajax({
-		type: 'GET',
-		url: `${COLDIGO.PATH}produto/buscar`,
-		data: `valorBusca=${valorBusca}`,
-		success: dados => {
-		
-		dados = JSON.parse(dados);
-		
 
-		$('#listaProdutos').html(COLDIGO.produto.exibir(dados));
-		
-		},
-		error: info => {
-			COLDIGO.exibirAviso(
-			`Erro ao consultar os contatos: ${info.status} - ${info.statusText}`);
-		}
-	});
- };
- 
- //Transforma os dados dos produtos recebidos do servidor em uma tabela HTML
- COLDIGO.produto.exibir = listaDeProdutos => {
- 
- let tabela = '<table><tr>'+
- 				'<th>Categoria</th>'+
- 				'<th>Marca</th>'+
- 				'<th>Modelo</th>'+
- 				'<th>Cap.(1)</th>'+
- 				'<th>Valor</th>'+
- 				'<th class="acoes">Ações</th>'+
- 			'</tr>';
- 
- if(listaDeProdutos != undefined && listaDeProdutos.length > 0){
-	listaDeProdutos.forEach( produto => {
-	 
-	 	tabela += `	<tr>
+		let valorBusca = $("#campoBuscaProduto").val();
+
+		$.ajax({
+			type: 'GET',
+			url: `${COLDIGO.PATH}produto/buscar`,
+			data: `valorBusca=${valorBusca}`,
+			success: dados => {
+
+				dados = JSON.parse(dados);
+
+
+				$('#listaProdutos').html(COLDIGO.produto.exibir(dados));
+
+			},
+			error: info => {
+				COLDIGO.exibirAviso(
+					`Erro ao consultar os contatos: ${info.status} - ${info.statusText}`);
+			}
+		});
+	};
+
+	//Transforma os dados dos produtos recebidos do servidor em uma tabela HTML
+	COLDIGO.produto.exibir = listaDeProdutos => {
+
+		let tabela = '<table><tr>' +
+			'<th>Categoria</th>' +
+			'<th>Marca</th>' +
+			'<th>Modelo</th>' +
+			'<th>Cap.(1)</th>' +
+			'<th>Valor</th>' +
+			'<th class="acoes">Ações</th>' +
+			'</tr>';
+
+		if (listaDeProdutos != undefined && listaDeProdutos.length > 0) {
+			listaDeProdutos.forEach(produto => {
+
+				tabela += `	<tr>
 	 					<td>${produto.categoria}</td>
 	 					<td>${produto.marcaNome}</td>
 	 					<td>${produto.modelo}</td>
@@ -138,22 +138,38 @@ $(document).ready(() => {
 	 					<td>R$ ${COLDIGO.formatarDinheiro(produto.valor)}</td>
 	 					<td>
 	 						<a><img src='../../imgs/edit.png' alt="Editar registro"></a>
-	 						<a><img src='../../imgs/delete.png' alt="Excluir registro"></a>
+	 						<a onclick="COLDIGO.produto.excluir(${produto.id})"><img src='../../imgs/delete.png' alt="Excluir registro"></a>
 	 					</td>
 	 				</tr>`;
-	 })
-   }else if(listaDeProdutos == ""){
-   
-   tabela += '<tr><td colspan="6">Nenhum Registro Encontrado</td></tr>';
-   
-   }
-   
- 	tabela += '</table>';
- 	
- 	return tabela;
- };
- 
- //Executa a função de busca ao carregar a página
- COLDIGO.produto.buscar();
- 
+			})
+		} else if (listaDeProdutos == "") {
+
+			tabela += '<tr><td colspan="6">Nenhum Registro Encontrado</td></tr>';
+
+		}
+
+		tabela += '</table>';
+
+		return tabela;
+	};
+
+	//Executa a função de busca ao carregar a página
+	COLDIGO.produto.buscar();
+
+	COLDIGO.produto.excluir = id => {
+		debugger;
+		$.ajax({
+			type: "DELETE",
+			url: `${COLDIGO.PATH}produto/excluir/${id}`,
+			success: msg => {
+				COLDIGO.exibirAviso(msg);
+				COLDIGO.produto.buscar();
+			},
+			error: info => {
+				COLDIGO.exibirAviso(`Erro ao excluir produto: ${info.status} - ${info.statusText}`);
+			}
+		});
+
+	}
+
 });
