@@ -157,7 +157,6 @@ $(document).ready(() => {
 	COLDIGO.produto.buscar();
 
 	COLDIGO.produto.excluir = id => {
-		debugger;
 		$.ajax({
 			type: "DELETE",
 			url: `${COLDIGO.PATH}produto/excluir/${id}`,
