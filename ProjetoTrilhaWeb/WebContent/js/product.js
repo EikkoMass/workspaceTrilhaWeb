@@ -1,7 +1,13 @@
 COLDIGO.produto = new Object();
 
 $(document).ready(() => {
-	COLDIGO.produto.carregarMarcas = () => {
+
+	//Carrega as marcas registradas no BD no select do formulário de inserir ou editar
+	COLDIGO.produto.carregarMarcas = id => {
+	
+		let select = 
+		id != undefined ? '#selMarcaEdicao' : '#selMarca';
+	
 		$.ajax({
 			type: 'GET',
 			url: `${COLDIGO.PATH}marca/buscar`,
@@ -9,41 +15,46 @@ $(document).ready(() => {
 
 				if (marcas != "") {
 
-					$('#selMarca').html("");
+					$(select).html("");
 					let option = document.createElement('option');
 					option.setAttribute('value', '');
 					option.innerHTML = 'Escolha';
-					$('#selMarca').append(option);
+					$(select).append(option);
 
-					for (let i = 0; i < marcas.length; i++) {
+					marcas.forEach( marca => {
 
 						option = document.createElement('option');
-						option.setAttribute('value', marcas[i].id);
-						option.innerHTML = (marcas[i].nome);
-						$('#selMarca').append(option);
-					};
+						option.setAttribute('value', marca.id);
+						
+						if((id != undefined) && (id == marca.id)){
+							option.setAttribute('selected', 'selected');
+						}
+						
+						option.innerHTML = (marca.nome);
+						$(select).append(option);
+					});
 
 				} else {
 
-					$('#selMarca').html("");
+					$(select).html("");
 
 					var option = document.createElement('option');
 					option.setAttribute('value', '');
 					option.innerHTML = ("Cadastre um marca primeiro!");
-					$('#selMarca').append(option);
-					$('#selMarca').addClass('aviso');
+					$(select).append(option);
+					$(select).addClass('aviso');
 				}
 
 			},
 			error: info => {
 				COLDIGO.exibirAviso(`Erro ao buscar as marcas ${info.status} - ${info.statusText}`);
 
-				$('#selMarca').html("");
+				$(select).html("");
 				var option = document.createElement('option');
 				option.setAttribute('value', '');
 				option.innerHTML = ("Erro ao carregar marcas!");
-				$('#selMarca').append(option);
-				$('#selMarca').addClass('aviso');
+				$(select).append(option);
+				$(select).addClass('aviso');
 			}
 		});
 	}
@@ -137,7 +148,7 @@ $(document).ready(() => {
 	 					<td>${produto.capacidade}</td>
 	 					<td>R$ ${COLDIGO.formatarDinheiro(produto.valor)}</td>
 	 					<td>
-	 						<a><img src='../../imgs/edit.png' alt="Editar registro"></a>
+	 						<a onclick="COLDIGO.produto.exibirEdicao(${produto.id})"><img src='../../imgs/edit.png' alt="Editar registro"></a>
 	 						<a onclick="COLDIGO.produto.excluir(${produto.id})"><img src='../../imgs/delete.png' alt="Excluir registro"></a>
 	 					</td>
 	 				</tr>`;
@@ -171,4 +182,60 @@ $(document).ready(() => {
 
 	}
 
+	COLDIGO.produto.exibirEdicao = id => {
+	$.ajax({
+		type: 'GET',
+		url: `${COLDIGO.PATH}produto/buscarPorId`,
+		data: `id=${id}`,
+		success: produto => {
+		
+			let form = document.frmEditaProduto;
+			
+			form.idProduto.value = produto.id;
+			form.modelo.value = produto.modelo;
+			form.capacidade.value = produto.capacidade;
+			form.valor.value = produto.valor;
+			
+			let selCategoria = document.getElementById('selCategoriaEdicao');
+			for(let i = 0; i < selCategoria.length; i++) {
+			
+			selCategoria.options[i].value == produto.categoria ?
+				selCategoria.options[i].setAttribute('selected', 'selected')
+				: selCategoria.options[i].removeAttribute('selected');
+									
+			}
+			
+			COLDIGO.produto.carregarMarcas(produto.marcaId);
+			
+			let modalEditaProduto = 
+			{
+				title: "Editar Produto",
+				height: 400,
+				width: 550,
+				modal: true,
+				buttons: {
+					"Salvar": function() {
+					},
+					
+					"Cancelar": function() {
+						$(this).dialog("close");
+					}
+				},
+				close: () => {
+				
+				//caso o usuário simplesmente feche a caixa de edição, 
+				//não deve acontecer nada
+				
+				}
+			
+			};
+			
+			$('#modalEditaProduto').dialog(modalEditaProduto);
+		},
+		error: info => {
+				COLDIGO.exibirAviso(`Erro ao buscar produto para edição ${info.status} - ${info.statusText}`);
+		}
+		
+		});
+	}
 });

@@ -174,7 +174,7 @@ section h2, section h3 {
 }
 
 /**	Modais 	**/
-#modalAviso {
+#modalAviso, .modalEditar {
 	display: none;
 }
 

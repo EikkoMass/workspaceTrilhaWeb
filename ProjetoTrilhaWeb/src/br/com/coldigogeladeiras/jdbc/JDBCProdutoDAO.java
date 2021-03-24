@@ -129,4 +129,40 @@ public class JDBCProdutoDAO implements ProdutoDAO {
 		return true;
 	
 	}
+	
+	public Produto buscarPorId(int id) {
+		
+		String comando = "SELECT p.* FROM produtos as p where p.id = ?";
+		
+		Produto produto = new Produto();
+		
+		try {
+			
+			PreparedStatement p = this.conexao.prepareStatement(comando);
+			p.setInt(1, id);
+			ResultSet rs = p.executeQuery();
+			
+			while(rs.next()) {
+				String categoria = rs.getString("categoria");
+				String modelo = rs.getString("modelo");
+				int capacidade = rs.getInt("capacidade");
+				float valor = rs.getFloat("valor");
+				int marcaId = rs.getInt("marcas_id");
+				
+				
+				produto.setId(id);
+				produto.setCapacidade(capacidade);
+				produto.setMarcaId(marcaId);
+				produto.setValor(valor);
+				produto.setCategoria(categoria);
+				produto.setModelo(modelo);
+			}
+			
+		}catch(Exception e) {
+		
+		}
+		
+		
+		return produto;
+	}
 }
