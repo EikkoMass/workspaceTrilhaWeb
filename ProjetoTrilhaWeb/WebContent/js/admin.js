@@ -18,6 +18,10 @@ $(document).ready(function() {
 	 */
 
 	COLDIGO.carregaPagina = pagename => {
+		
+		if($('.ui-dialog'))
+			$('.ui-dialog').remove();
+		
 		// Limpa a tag section, excluindo todo o conteúdo de dentro dela
 		$("section").empty();
 		

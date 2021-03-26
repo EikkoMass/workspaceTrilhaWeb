@@ -215,6 +215,7 @@ $(document).ready(() => {
 				modal: true,
 				buttons: {
 					"Salvar": function() {
+						COLDIGO.produto.editar();
 					},
 					
 					"Cancelar": function() {
@@ -238,4 +239,35 @@ $(document).ready(() => {
 		
 		});
 	}
+	
+	COLDIGO.produto.editar = () => {
+		
+		let produto = new Object();
+		let form = document.frmEditaProduto;
+		
+		produto.id = form.idProduto.value;
+		produto.categoria = form.categoria.value;
+		produto.marcaId = form.marcaId.value;
+		produto.modelo = form.modelo.value;
+		produto.capacidade = form.capacidade.value;
+		produto.valor = form.valor.value;
+	
+		$.ajax({
+			type: 'PUT',
+			url: `${COLDIGO.PATH}produto/alterar`,
+			data: JSON.stringify(produto),
+			success: msg => {
+				
+				COLDIGO.exibirAviso(msg);
+				COLDIGO.produto.buscar();
+				$('#modalEditaProduto').dialog('close');
+				
+			},
+			error: info => {
+				COLDIGO.exibirAviso(`Erro ao editar produto: ${info.status} - ${info.statusText}`);
+			}
+			
+		});
+	
+	};
 });
