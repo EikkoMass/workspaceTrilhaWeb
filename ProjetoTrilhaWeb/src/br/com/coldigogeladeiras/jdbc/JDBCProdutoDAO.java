@@ -159,7 +159,7 @@ public class JDBCProdutoDAO implements ProdutoDAO {
 			}
 			
 		}catch(Exception e) {
-		
+			e.printStackTrace();
 		}
 		
 		
