@@ -38,7 +38,6 @@ $(document).ready(() => {
 			data: `busca=${busca}`,
 			success: marcas => {
 
-				marcas = JSON.parse(marcas);
 				$('#listaMarcas').html(COLDIGO.marca.exibir(marcas));
 			},
 			error: info => {
@@ -56,6 +55,7 @@ $(document).ready(() => {
 			'</tr>';
 
 		if (listaDeMarcas != undefined && listaDeMarcas.length > 0) {
+			listaDeMarcas = JSON.parse(listaDeMarcas);
 			listaDeMarcas.forEach(marca => {
 
 				tabela += `	<tr>

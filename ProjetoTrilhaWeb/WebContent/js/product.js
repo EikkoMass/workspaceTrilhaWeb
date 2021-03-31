@@ -10,7 +10,7 @@ $(document).ready(() => {
 	
 		$.ajax({
 			type: 'GET',
-			url: `${COLDIGO.PATH}marca/buscar`,
+			url: `${COLDIGO.PATH}marca/buscarTodasAsMarcas`,
 			success: marcas => {
 
 				if (marcas != "") {

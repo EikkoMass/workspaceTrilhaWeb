@@ -27,6 +27,28 @@ import com.google.gson.JsonObject;
 public class MarcaRest extends UtilRest {
 
 	@GET
+	@Path("/buscarTodasAsMarcas")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscar() {
+
+		try {
+			List<Marca> listaDeMarcas = new ArrayList<Marca>();
+
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+			listaDeMarcas = jdbcMarca.buscar();
+			conec.fecharConexao();
+
+			return this.buildResponse(listaDeMarcas);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}
+
+	}
+	
+	@GET
 	@Path("/buscarPorId")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response buscarPorId(@QueryParam("id") int id) {

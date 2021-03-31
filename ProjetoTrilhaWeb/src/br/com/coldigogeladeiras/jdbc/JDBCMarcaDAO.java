@@ -20,7 +20,39 @@ public class JDBCMarcaDAO implements MarcaDAO {
 	public JDBCMarcaDAO(Connection conexao) {
 		this.conexao = conexao;
 	}
-	
+
+	public List<Marca> buscar() {
+
+		String comando = "SELECT * FROM marcas";
+
+		List<Marca> listaDeMarcas = new ArrayList<Marca>();
+		Marca marca = null;
+
+		try {
+			Statement stmt = this.conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);
+
+			while (rs.next()) {
+
+				String nome = rs.getString("nome");
+				int id = rs.getInt("id");
+
+				marca = new Marca();
+				marca.setId(id);
+				marca.setNome(nome);
+
+				listaDeMarcas.add(marca);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listaDeMarcas;
+
+	}
+
 	public Marca buscarPorId(int id) {
 
 		// Criação da instrução SQL para busca de todas as marcas
@@ -59,7 +91,6 @@ public class JDBCMarcaDAO implements MarcaDAO {
 
 		return marca;
 	}
-	
 
 	public boolean inserir(Marca marca) {
 
@@ -92,7 +123,7 @@ public class JDBCMarcaDAO implements MarcaDAO {
 			// concatena no comando o WHERE buscando no nome do produto
 			// o texto da variável nome
 
-			comando += "WHERE nome LIKE '%"+nome+"%' ";
+			comando += "WHERE nome LIKE '%" + nome + "%' ";
 		}
 
 		// Finaliza o comando ordenando alfabeticamente por categoria,
@@ -111,11 +142,11 @@ public class JDBCMarcaDAO implements MarcaDAO {
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nomeMarca = rs.getString("nome");
-				
+
 				marca = new JsonObject();
 				marca.addProperty("id", id);
 				marca.addProperty("nome", nomeMarca);
-				
+
 				listaMarcas.add(marca);
 			}
 

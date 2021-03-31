@@ -8,6 +8,7 @@ import br.com.coldigogeladeiras.modelo.Marca;
 
 public interface MarcaDAO {
 
+	public List<Marca> buscar();
 	public Marca buscarPorId(int id);
 	public List<JsonObject> buscarPorNome(String nome);
 	public boolean deletar(int id);
