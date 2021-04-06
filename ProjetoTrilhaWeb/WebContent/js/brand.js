@@ -51,15 +51,24 @@ $(document).ready(() => {
 
 		let tabela = '<table><tr>' +
 			'<th>Nome</th>' +
+			'<th>Visibilidade</th>' +
 			'<th class="acoes">Ações</th>' +
 			'</tr>';
 
 		if (listaDeMarcas != undefined && listaDeMarcas.length > 0) {
 			listaDeMarcas = JSON.parse(listaDeMarcas);
 			listaDeMarcas.forEach(marca => {
-
+				debugger;
 				tabela += `	<tr>
 	 					<td>${marca.nome}</td>
+	 					<td>
+	 						<a onclick="COLDIGO.marca.ativacaoDeMarca(${marca.id})">
+		 					<label class="switch">
+	  							<input type="checkbox" ${marca.status ? "checked" : ""}>
+	  							<span class="slider"></span>
+							</label>
+	 						</a>
+	 					</td>
 	 					<td>
 	 						<a onclick="COLDIGO.marca.exibirEdicao(${marca.id})"><img src='../../imgs/edit.png' alt="Editar registro"></a>
 	 						<a onclick="COLDIGO.marca.excluir(${marca.id})"><img src='../../imgs/delete.png' alt="Excluir registro"></a>
@@ -164,5 +173,23 @@ $(document).ready(() => {
 			}
 		});
 	};
+	
+	COLDIGO.marca.ativacaoDeMarca = id => {
+		debugger;
+		$.ajax({
+			type: 'PUT',
+			url: `${COLDIGO.PATH}marca/alterarStatus`,
+			data: id,
+			success: msg => {
+			
+				COLDIGO.exibirAviso(msg);
+				COLDIGO.marca.buscar();
+			},
+			error: info => {
+				COLDIGO.exibirAviso(`Erro ao editar o status da marca: ${info.text} - ${info.statusText}`);
+			}	
+		});
+	
+	}
 
 });

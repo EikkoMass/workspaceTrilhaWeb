@@ -21,6 +21,26 @@ public class JDBCMarcaDAO implements MarcaDAO {
 		this.conexao = conexao;
 	}
 
+	public boolean marcaPossuiRelacoes(int id) {
+
+		String comando = "SELECT * FROM produtos WHERE marcas_id = ?";
+
+		PreparedStatement p;
+
+		try {
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, id);
+			ResultSet rs = p.executeQuery();
+
+			return rs != null ? rs.next() : false;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+	
 	public List<Marca> buscar() {
 
 		String comando = "SELECT * FROM marcas";
@@ -142,10 +162,12 @@ public class JDBCMarcaDAO implements MarcaDAO {
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nomeMarca = rs.getString("nome");
+				int status = rs.getInt("status");
 
 				marca = new JsonObject();
 				marca.addProperty("id", id);
 				marca.addProperty("nome", nomeMarca);
+				marca.addProperty("status", status);
 
 				listaMarcas.add(marca);
 			}
@@ -187,6 +209,28 @@ public class JDBCMarcaDAO implements MarcaDAO {
 			p = this.conexao.prepareStatement(comando);
 
 			p.setString(1, marca.getNome());
+			p.setInt(2, marca.getId());
+
+			p.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+	
+	public boolean editarStatus(Marca marca) {
+
+		String comando = "UPDATE marcas SET status = ? WHERE id = ?";
+
+		PreparedStatement p;
+
+		try {
+			p = this.conexao.prepareStatement(comando);
+
+			p.setInt(1, marca.isActiveStatus() ? 0 : 1);
 			p.setInt(2, marca.getId());
 
 			p.executeUpdate();

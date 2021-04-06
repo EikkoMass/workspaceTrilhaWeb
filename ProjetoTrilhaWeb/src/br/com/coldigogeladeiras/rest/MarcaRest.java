@@ -102,10 +102,16 @@ public class MarcaRest extends UtilRest {
 			Connection conexao = conec.abrirConexao();
 			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
 
-			boolean retorno = jdbcMarca.deletar(id);
-
-			String mensagem = retorno ? "Marca deletada com sucesso!"
-					: "Houve um problema ao deletar a marca selecionada.";
+			String mensagem;
+			
+			if(!jdbcMarca.marcaPossuiRelacoes(id)) {
+				boolean retorno = jdbcMarca.deletar(id);
+				mensagem = retorno ? "Marca deletada com sucesso!"
+						: "Houve um problema ao deletar a marca selecionada.";
+			}else {
+				mensagem = "Você não pode excluir uma marca com produtos vinculados, "
+						+ "exclua-os e tente novamente mais tarde!";
+			}
 
 			conec.fecharConexao();
 
@@ -141,6 +147,35 @@ public class MarcaRest extends UtilRest {
 		}
 		
 	}
+	
+	@PUT
+	@Path("/alterarStatus")
+	@Consumes("application/*")
+	public Response alterarStatus(@QueryParam("id") int id) {
+		
+		try {
+
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+			
+			Marca marca = jdbcMarca.buscarPorId(id);
+			
+			boolean retorno = jdbcMarca.editarStatus(marca);
+			conec.fecharConexao();
+			
+			String mensagem = 
+					retorno ? "Status da marca editada com sucesso!" : "Houve algum problema ao editar o status da marca selecionada.";
+			
+			return this.buildResponse(mensagem);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}
+		
+	}
+	
 	
 	@GET
 	@Path("/buscar")

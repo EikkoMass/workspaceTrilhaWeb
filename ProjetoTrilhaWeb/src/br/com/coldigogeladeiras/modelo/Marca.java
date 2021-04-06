@@ -10,6 +10,14 @@ public class Marca implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nome;
+	private boolean status;
+	
+	public boolean isActiveStatus() {
+		return this.status;
+	}
+	public void setStatus(boolean ativo) {
+		this.status = ativo;
+	}
 	
 	public int getId() {
 		return id;

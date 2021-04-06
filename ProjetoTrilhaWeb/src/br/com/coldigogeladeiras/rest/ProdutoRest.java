@@ -53,9 +53,17 @@ public class ProdutoRest extends UtilRest {
 			Connection conexao = conec.abrirConexao();
 
 			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
-			boolean retorno = jdbcProduto.inserir(produto);
+			String msg;
+			
+			if(jdbcProduto.verificaCriacao(produto)) {
+				boolean retorno = jdbcProduto.inserir(produto);
+				msg = retorno ? "Produto cadastrado com sucesso!" : "Erro ao cadastrar produto.";
 
-			String msg = retorno ? "Produto cadastrado com sucesso!" : "Erro ao cadastrar produto.";
+			}else {
+				msg = "Não foi encontrado a marca selecionada, "
+						+ "por favor, tente novamente!";
+				
+			}
 
 			conec.fecharConexao();
 			/** Conexão Finalizada **/

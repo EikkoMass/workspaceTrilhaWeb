@@ -21,6 +21,30 @@ public class JDBCProdutoDAO implements ProdutoDAO {
 		this.conexao = conexao;
 	}
 
+public boolean verificaCriacao(Produto produto) {
+		
+		String comando = "SELECT * FROM marcas WHERE id = ?";
+		
+		PreparedStatement p;
+		
+		try {
+			p = this.conexao.prepareStatement(comando);
+			p.setInt(1, produto.getMarcaId());
+			
+			ResultSet rs = p.executeQuery();
+			
+			return rs != null ? rs.next() : false;
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	@Override
 	public boolean inserir(Produto produto) {
 
