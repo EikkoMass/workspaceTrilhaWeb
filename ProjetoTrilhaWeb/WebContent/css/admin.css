@@ -253,6 +253,8 @@ section h2, section h3 {
 	background: #ccc;
 	-webkit-transition: 0.4s;
 	transition:0.4s;
+	border-radius: 14px;
+	border-radius: 2px 8px 8px 2px;
 }
 
 .slider:before {
@@ -265,10 +267,12 @@ section h2, section h3 {
 	background: #fff;
 	-webkit-transition: 0.4s;
 	transition: 0.4s;
+	border-radius: 2px;
 }
 
 input:checked + .slider{
 	background: #2196F3;
+	border-radius: 8px 2px 2px 8px;
 }
 
 input:focus + .slider{

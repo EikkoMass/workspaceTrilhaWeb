@@ -13,6 +13,7 @@ public interface MarcaDAO {
 	public List<JsonObject> buscarPorNome(String nome);
 	public boolean deletar(int id);
 	public boolean editar(Marca marca);
-	public boolean inserir(Marca marca);	
+	public boolean inserir(Marca marca);
+	public boolean editarStatus(Marca marca);
 
 }
