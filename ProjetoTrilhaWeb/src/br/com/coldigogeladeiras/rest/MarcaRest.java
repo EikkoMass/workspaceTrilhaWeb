@@ -27,6 +27,28 @@ import com.google.gson.JsonObject;
 public class MarcaRest extends UtilRest {
 
 	@GET
+	@Path("/buscarTodasAsMarcasAtivadas")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarMarcasAtivadas() {
+
+		try {
+			List<Marca> listaDeMarcas = new ArrayList<Marca>();
+
+			Conexao conec = new Conexao();
+			Connection conexao = conec.abrirConexao();
+			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+			listaDeMarcas = jdbcMarca.buscarMarcasAtivadas();
+			conec.fecharConexao();
+
+			return this.buildResponse(listaDeMarcas);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return this.buildErrorResponse(e.getMessage());
+		}
+
+	}
+	
+	@GET
 	@Path("/buscarTodasAsMarcas")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response buscar() {
@@ -80,11 +102,17 @@ public class MarcaRest extends UtilRest {
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
+			String mensagem;
 
-			boolean retorno = jdbcMarca.inserir(marca);
+			if(!jdbcMarca.seriaUmaMarcaExistente(marca)) {
+				boolean retorno = jdbcMarca.inserir(marca);
+				mensagem = retorno ? "Marca registrada com sucesso!" : "Erro ao registrar marca.";
+			}else {
+				mensagem = "Você não pode adicionar uma marca com nome já registrado!";
+			}
+
 			conec.fecharConexao();
 
-			String mensagem = retorno ? "Marca registrada com sucesso!" : "Erro ao registrar marca.";
 
 			return this.buildResponse(mensagem);
 		} catch (Exception e) {
@@ -151,15 +179,15 @@ public class MarcaRest extends UtilRest {
 	@PUT
 	@Path("/alterarStatus")
 	@Consumes("application/*")
-	public Response alterarStatus(@QueryParam("id") int id) {
+	public Response alterarStatus(String id) {
 		
 		try {
-
+			int idMarca = Integer.parseInt(id);
 			Conexao conec = new Conexao();
 			Connection conexao = conec.abrirConexao();
 			JDBCMarcaDAO jdbcMarca = new JDBCMarcaDAO(conexao);
 			
-			Marca marca = jdbcMarca.buscarPorId(id);
+			Marca marca = jdbcMarca.buscarPorId(idMarca);
 			
 			boolean retorno = jdbcMarca.editarStatus(marca);
 			conec.fecharConexao();

@@ -54,15 +54,18 @@ public class ProdutoRest extends UtilRest {
 
 			JDBCProdutoDAO jdbcProduto = new JDBCProdutoDAO(conexao);
 			String msg;
-			
-			if(jdbcProduto.verificaCriacao(produto)) {
-				boolean retorno = jdbcProduto.inserir(produto);
-				msg = retorno ? "Produto cadastrado com sucesso!" : "Erro ao cadastrar produto.";
 
-			}else {
-				msg = "NÃ£o foi encontrado a marca selecionada, "
-						+ "por favor, tente novamente!";
-				
+			if (jdbcProduto.seriaUmaMarcaValida(produto)) {
+				if (!jdbcProduto.seriaUmProdutoExistente(produto)) {
+					boolean retorno = jdbcProduto.inserir(produto);
+					msg = retorno ? "Produto cadastrado com sucesso!" : "Erro ao cadastrar produto.";
+				} else {
+					msg = "Você não pode cadastrar um produto idêntico a outro!";
+				}
+
+			} else {
+				msg = "Não foi encontrado a marca selecionada, " + "por favor, tente novamente!";
+
 			}
 
 			conec.fecharConexao();

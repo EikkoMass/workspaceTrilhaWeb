@@ -22,7 +22,7 @@ $(document).ready(() => {
 				COLDIGO.marca.buscar();
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao cadastrar marca: ${info.status} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao cadastrar marca: ${info.statusText} ${info.status} - ${info.responseText}`);
 			}
 		});
 		
@@ -41,7 +41,7 @@ $(document).ready(() => {
 				$('#listaMarcas').html(COLDIGO.marca.exibir(marcas));
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao buscar marcas: ${info.status} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao buscar marcas: ${info.statusText} ${info.status} - ${info.responseText}`);
 			}
 		});
 	
@@ -58,11 +58,10 @@ $(document).ready(() => {
 		if (listaDeMarcas != undefined && listaDeMarcas.length > 0) {
 			listaDeMarcas = JSON.parse(listaDeMarcas);
 			listaDeMarcas.forEach(marca => {
-				debugger;
 				tabela += `	<tr>
 	 					<td>${marca.nome}</td>
 	 					<td>
-	 						<a onclick="COLDIGO.marca.ativacaoDeMarca(${marca.id})">
+	 						<a onclick="COLDIGO.marca.ativacaoDeMarca(${marca.id}, this)">
 		 					<label class="switch">
 	  							<input type="checkbox" ${marca.status ? "checked" : ""}>
 	  							<span class="slider"></span>
@@ -98,7 +97,7 @@ $(document).ready(() => {
 				COLDIGO.marca.buscar();
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao excluir marca: ${info.status} - ${info.statusText}`);		
+				COLDIGO.exibirAviso(`Erro ao excluir marca: ${info.statusText} ${info.status} - ${info.responseText}`);		
 			}
 		});
 		
@@ -142,7 +141,7 @@ $(document).ready(() => {
 			
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao exibir edição de marca: ${info.status} - ${info.statusText}`);		
+				COLDIGO.exibirAviso(`Erro ao exibir edição de marca: ${info.statusText} ${info.status} - ${info.responseText}`);		
 			}
 		});
 	
@@ -169,24 +168,26 @@ $(document).ready(() => {
 			
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao editar marca: ${info.text} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao editar marca: ${info.statusText} ${info.status} - ${info.responseText}`);
 			}
 		});
 	};
 	
-	COLDIGO.marca.ativacaoDeMarca = id => {
-		debugger;
+	COLDIGO.marca.ativacaoDeMarca = (id, element) => {
+
 		$.ajax({
 			type: 'PUT',
 			url: `${COLDIGO.PATH}marca/alterarStatus`,
-			data: id,
+			data: JSON.stringify(id),
 			success: msg => {
 			
 				COLDIGO.exibirAviso(msg);
 				COLDIGO.marca.buscar();
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao editar o status da marca: ${info.text} - ${info.statusText}`);
+				
+				COLDIGO.exibirAviso(`Erro ao editar o status da marca: ${info.statusText} ${info.status} - ${info.responseText}`);
+				element.checked = !element.checked;
 			}	
 		});
 	

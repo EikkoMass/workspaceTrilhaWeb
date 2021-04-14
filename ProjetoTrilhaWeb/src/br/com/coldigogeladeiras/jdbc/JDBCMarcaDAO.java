@@ -56,10 +56,45 @@ public class JDBCMarcaDAO implements MarcaDAO {
 
 				String nome = rs.getString("nome");
 				int id = rs.getInt("id");
+				boolean status = rs.getInt("status") == 1;
 
 				marca = new Marca();
 				marca.setId(id);
 				marca.setNome(nome);
+				marca.setStatus(status);
+
+				listaDeMarcas.add(marca);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listaDeMarcas;
+
+	}
+	
+	public List<Marca> buscarMarcasAtivadas() {
+
+		String comando = "SELECT * FROM marcas WHERE status = 1";
+
+		List<Marca> listaDeMarcas = new ArrayList<Marca>();
+		Marca marca = null;
+
+		try {
+			Statement stmt = this.conexao.createStatement();
+			ResultSet rs = stmt.executeQuery(comando);
+
+			while (rs.next()) {
+
+				String nome = rs.getString("nome");
+				int id = rs.getInt("id");
+
+				marca = new Marca();
+				marca.setId(id);
+				marca.setNome(nome);
+				marca.setStatus(true);
 
 				listaDeMarcas.add(marca);
 
@@ -95,10 +130,12 @@ public class JDBCMarcaDAO implements MarcaDAO {
 				// Criação da instância da classe Marca
 				marca = new Marca();
 				String nome = rs.getString("nome");
+				boolean status = rs.getInt("status") == 1;
 
 				// Setando no objeto marca os valores encontrados
 				marca.setId(id);
 				marca.setNome(nome);
+				marca.setStatus(status);
 
 			}
 
@@ -162,7 +199,7 @@ public class JDBCMarcaDAO implements MarcaDAO {
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nomeMarca = rs.getString("nome");
-				int status = rs.getInt("status");
+				boolean status = rs.getInt("status") == 1;
 
 				marca = new JsonObject();
 				marca.addProperty("id", id);
@@ -241,6 +278,28 @@ public class JDBCMarcaDAO implements MarcaDAO {
 		}
 
 		return true;
+	}
+	
+	public boolean seriaUmaMarcaExistente(Marca marca) {
+
+		String comando = "SELECT id FROM marcas WHERE nome = ?";
+
+		PreparedStatement p;
+		boolean retorno = false;
+
+		try {
+			p = this.conexao.prepareStatement(comando);
+			
+			p.setString(1, marca.getNome());
+			ResultSet rs = p.executeQuery();
+			retorno = rs != null ? rs.next() : false;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return retorno;
 	}
 
 }

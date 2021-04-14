@@ -10,7 +10,7 @@ $(document).ready(() => {
 	
 		$.ajax({
 			type: 'GET',
-			url: `${COLDIGO.PATH}marca/buscarTodasAsMarcas`,
+			url: `${COLDIGO.PATH}marca/buscarTodasAsMarcasAtivadas`,
 			success: marcas => {
 
 				if (marcas != "") {
@@ -47,7 +47,7 @@ $(document).ready(() => {
 
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao buscar as marcas ${info.status} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao buscar as marcas ${info.statusText} ${info.status} - ${info.responseText}`);
 
 				$(select).html("");
 				var option = document.createElement('option');
@@ -90,13 +90,14 @@ $(document).ready(() => {
 				success: msg => {
 					COLDIGO.exibirAviso(msg);
 					$('#addProduto').trigger('reset');
-					COLDIGO.produto.buscar()
 				},
 				error: info => {
-					COLDIGO.exibirAviso(`Erro ao cadastrar um novo produto: ${info.status} - ${info.statusText}`);
+					COLDIGO.exibirAviso(`Erro ao cadastrar um novo produto: ${info.statusText} ${info.status} - ${info.responseText}`);
 				}
 			});
-
+			
+			COLDIGO.produto.carregarMarcas();
+			COLDIGO.produto.buscar();
 		}
 
 	}
@@ -121,7 +122,7 @@ $(document).ready(() => {
 			},
 			error: info => {
 				COLDIGO.exibirAviso(
-					`Erro ao consultar os contatos: ${info.status} - ${info.statusText}`);
+					`Erro ao consultar os contatos: ${info.statusText} ${info.status} - ${info.responseText}`);
 			}
 		});
 	};
@@ -176,7 +177,7 @@ $(document).ready(() => {
 				COLDIGO.produto.buscar();
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao excluir produto: ${info.status} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao excluir produto: ${info.statusText} ${info.status} - ${info.responseText}`);
 			}
 		});
 
@@ -234,7 +235,7 @@ $(document).ready(() => {
 			$('#modalEditaProduto').dialog(modalEditaProduto);
 		},
 		error: info => {
-				COLDIGO.exibirAviso(`Erro ao buscar produto para edição ${info.status} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao buscar produto para edição ${info.statusText} ${info.status} - ${info.responseText}`);
 		}
 		
 		});
@@ -264,7 +265,7 @@ $(document).ready(() => {
 				
 			},
 			error: info => {
-				COLDIGO.exibirAviso(`Erro ao editar produto: ${info.status} - ${info.statusText}`);
+				COLDIGO.exibirAviso(`Erro ao editar produto: ${info.statusText} ${info.status} - ${info.responseText}`);
 			}
 			
 		});
