@@ -16,6 +16,9 @@ public interface MarcaDAO {
 	public boolean editar(Marca marca);
 	public boolean inserir(Marca marca);
 	public boolean editarStatus(Marca marca);
+<<<<<<< HEAD
 	public boolean marcaPossuiRelacoes(int id);
+=======
+>>>>>>> bf2563d24bc65fa77f04c1d061e665bc95b83f51
 
 }

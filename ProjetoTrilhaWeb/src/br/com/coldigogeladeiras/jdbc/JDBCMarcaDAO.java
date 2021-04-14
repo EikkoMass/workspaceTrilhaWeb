@@ -62,6 +62,7 @@ public class JDBCMarcaDAO implements MarcaDAO {
 				marca.setId(id);
 				marca.setNome(nome);
 				marca.setStatus(status);
+<<<<<<< HEAD
 
 				listaDeMarcas.add(marca);
 
@@ -95,6 +96,8 @@ public class JDBCMarcaDAO implements MarcaDAO {
 				marca.setId(id);
 				marca.setNome(nome);
 				marca.setStatus(true);
+=======
+>>>>>>> bf2563d24bc65fa77f04c1d061e665bc95b83f51
 
 				listaDeMarcas.add(marca);
 
